@@ -1,11 +1,11 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, StyleSheet, Text } from 'react-native'
 
 const App = () => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>First React Native Cl</Text>
-      i</View>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>"First React Native CLi"</Text>
+      i</SafeAreaView>
   )
 }
 
