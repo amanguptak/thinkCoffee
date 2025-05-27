@@ -16,7 +16,7 @@ const BlurViewComP = () => {
     <BlurView
       overlayColor=""
       blurAmount={15}
-      blurType="light"
+ 
       style={styles.BlurViewStyles}
     />
   );
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   
     position: 'absolute',
     backgroundColor: COLORS.primaryBlackRGBA,
-    borderTopWidth: 2,
+    borderTopWidth: 0,
     elevation: 0,
     borderTopColor: 'transparent',
   },

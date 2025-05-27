@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
-import {Text, StyleSheet} from 'react-native';
+import {Text, StyleSheet, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useMyStore} from '../store/store';
 import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
+
+import {COLORS} from '../theme/theme';
+import HeaderBar from '../components/HeaderBar';
 
 const getCategoriesFromData = (data: any) => {
   if (!data.length) return;
@@ -49,9 +52,19 @@ const HomeScreen = () => {
   const [sortedCoffe, setSortedCoffee] = useState(
     getCoffeeList(categoryIndex.category, coffeeList),
   );
+    const tabBarHeight = useBottomTabBarHeight()
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
-      <Text>Welcome to Home Screen</Text>
+    <SafeAreaView
+      style={styles.ScreenContainer}
+      edges={['top', 'left', 'right']}>
+      <HeaderBar title='home'/>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.ScrollViewFlex}>
+
+
+        </ScrollView>
+       
     </SafeAreaView>
   );
 };
@@ -59,7 +72,11 @@ const HomeScreen = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  container: {
+  ScreenContainer: {
     flex: 1,
+    backgroundColor: COLORS.primaryBlackHex,
+  },
+  ScrollViewFlex: {
+    flexGrow: 1,
   },
 });
