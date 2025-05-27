@@ -13,12 +13,13 @@ interface GradientBGIconProps {
 const GradientBgIcon = ({name,color,size}:GradientBGIconProps) => {
   return (
     <View style ={styles.container}>
+       
       <LinearGradient
-       start={{x: 0, y: 0}}
+        start={{x: 0, y: 0}}
         end={{x: 1, y: 1}}
-       colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+        colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
         style={styles.LinearGradientBG}>
-        <CustomIcon name={name} color={color} size={size} />
+         <CustomIcon name={name} color={color} size={size} />
       </LinearGradient>
     </View>
   )
