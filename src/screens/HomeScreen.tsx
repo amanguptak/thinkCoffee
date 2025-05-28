@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   StyleSheet,
@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useMyStore} from '../store/store';
-import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
+// import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 
 import {
   BORDERRADIUS,
@@ -20,7 +20,9 @@ import {
 } from '../theme/theme';
 import HeaderBar from '../components/HeaderBar';
 import CustomIcon from '../components/CustomIcon';
-import {CategoryList, ProductItem} from '../types/datatypes';
+import {CategoryList, CategoryState, ProductItem} from '../types/datatypes';
+import CategoryFilter from '../components/CategoryFilter';
+
 
 export const getCategoriesFromData = (data: ProductItem[]): CategoryList => {
   if (!data.length) return [];
@@ -50,9 +52,10 @@ const HomeScreen = () => {
   const beanList = useMyStore((state: any) => state.BeanList);
   console.log(coffeeList, 'and', beanList);
 
-  const [categories, setCategories] = useState<CategoryList>(
-    getCategoriesFromData(coffeeList),
-  );
+  const [categories, setCategories] = useState<CategoryList>([]);
+   useEffect(()=>{
+  setCategories(getCategoriesFromData(coffeeList))
+  },[coffeeList])
 
   const [categoryIndex, setCategoryIndex] = useState<CategoryState>({
     index: 0,
@@ -63,9 +66,10 @@ const HomeScreen = () => {
     getCoffeeList(categoryIndex.category, coffeeList),
   );
 
+    console.log('sortedCoffee',sortedCoffee)
   const [searchText, setSearchText] = useState('');
-
-  const tabBarHeight = useBottomTabBarHeight();
+ 
+  // const tabBarHeight = useBottomTabBarHeight();
   return (
     <SafeAreaView
       style={styles.ScreenContainer}
@@ -81,7 +85,6 @@ const HomeScreen = () => {
 
         <View style={styles.SearchContainer}>
           <TouchableOpacity onPress={() => {}}>
-
             <CustomIcon
               style={styles.SearchIcon}
               name="search"
@@ -103,6 +106,13 @@ const HomeScreen = () => {
             style={styles.SearchInput}
           />
         </View>
+        <CategoryFilter
+          categories={categories}
+          setCategoryIndex={setCategoryIndex}
+          categoryIndex={categoryIndex}
+          setSortedCoffee={setSortedCoffee}
+          coffeeList={coffeeList}
+        />
       </ScrollView>
     </SafeAreaView>
   );
