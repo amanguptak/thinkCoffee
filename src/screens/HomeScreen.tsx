@@ -117,7 +117,8 @@ const HomeScreen = () => {
           coffeeList={coffeeList}
         />
 
-        <FlatList
+      <View style={styles.itemContainer}>
+          <FlatList
           ref={listRef}
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -129,7 +130,7 @@ const HomeScreen = () => {
             </TouchableOpacity>
           )}
         />
-
+        <Text style={styles.itemSubHeading}>Coffee Beans</Text>
         <FlatList
           ref={listRef}
           horizontal
@@ -143,6 +144,7 @@ const HomeScreen = () => {
             </TouchableOpacity>
           )}
         />
+      </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -154,6 +156,7 @@ const styles = StyleSheet.create({
   ScreenContainer: {
     flex: 1,
     backgroundColor: COLORS.primaryBlackHex,
+   
   },
   ScrollViewFlex: {
     flexGrow: 1,
@@ -182,4 +185,16 @@ const styles = StyleSheet.create({
     fontFamily: FONTFAMILY.poppins_medium,
     fontSize: FONTSIZE.size_14,
   },
+  itemContainer:{
+      marginBottom:2,
+  },
+  itemSubHeading:{
+      color:COLORS.primaryWhiteHex,
+      fontFamily:FONTFAMILY.poppins_semibold,
+      marginHorizontal:SPACING.space_4,
+      padding: SPACING.space_20,
+      fontSize:FONTSIZE.size_16,
+
+      
+  }
 });

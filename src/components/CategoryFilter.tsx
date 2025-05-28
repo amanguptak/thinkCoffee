@@ -69,8 +69,8 @@ export default CategoryFilter;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: SPACING.space_20,
-    marginBottom: SPACING.space_20,
+    paddingHorizontal: SPACING.space_8,
+    marginBottom: SPACING.space_10,
   },
   categoryScroll: {
     paddingHorizontal: SPACING.space_15,
