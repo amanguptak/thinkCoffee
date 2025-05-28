@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   Text,
   StyleSheet,
@@ -6,10 +6,11 @@ import {
   View,
   TouchableOpacity,
   TextInput,
+  FlatList,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useMyStore} from '../store/store';
-// import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
+import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 
 import {
   BORDERRADIUS,
@@ -22,7 +23,7 @@ import HeaderBar from '../components/HeaderBar';
 import CustomIcon from '../components/CustomIcon';
 import {CategoryList, CategoryState, ProductItem} from '../types/datatypes';
 import CategoryFilter from '../components/CategoryFilter';
-
+import ItemCard from '../components/ItemCard';
 
 export const getCategoriesFromData = (data: ProductItem[]): CategoryList => {
   if (!data.length) return [];
@@ -48,14 +49,16 @@ export const getCoffeeList = (
 };
 
 const HomeScreen = () => {
+  const listRef = useRef<FlatList>(null);
+
   const coffeeList = useMyStore((state: any) => state.CoffeeList);
   const beanList = useMyStore((state: any) => state.BeanList);
   console.log(coffeeList, 'and', beanList);
 
   const [categories, setCategories] = useState<CategoryList>([]);
-   useEffect(()=>{
-  setCategories(getCategoriesFromData(coffeeList))
-  },[coffeeList])
+  useEffect(() => {
+    setCategories(getCategoriesFromData(coffeeList));
+  }, [coffeeList]);
 
   const [categoryIndex, setCategoryIndex] = useState<CategoryState>({
     index: 0,
@@ -66,10 +69,10 @@ const HomeScreen = () => {
     getCoffeeList(categoryIndex.category, coffeeList),
   );
 
-    console.log('sortedCoffee',sortedCoffee)
+  console.log('sortedCoffee', sortedCoffee);
   const [searchText, setSearchText] = useState('');
- 
-  // const tabBarHeight = useBottomTabBarHeight();
+
+  const tabBarHeight = useBottomTabBarHeight();
   return (
     <SafeAreaView
       style={styles.ScreenContainer}
@@ -112,6 +115,33 @@ const HomeScreen = () => {
           categoryIndex={categoryIndex}
           setSortedCoffee={setSortedCoffee}
           coffeeList={coffeeList}
+        />
+
+        <FlatList
+          ref={listRef}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={sortedCoffee}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => (
+            <TouchableOpacity onPress={() => {}}>
+              <ItemCard item={item} />
+            </TouchableOpacity>
+          )}
+        />
+
+        <FlatList
+          ref={listRef}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={beanList}
+          contentContainerStyle={[{marginBottom: tabBarHeight}]}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => (
+            <TouchableOpacity onPress={() => {}}>
+              <ItemCard item={item} />
+            </TouchableOpacity>
+          )}
         />
       </ScrollView>
     </SafeAreaView>
