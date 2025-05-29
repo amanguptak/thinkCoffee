@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useMyStore} from '../store/store';
-import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
+import {BottomTabScreenProps, useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 
 import {
   BORDERRADIUS,
@@ -25,7 +25,15 @@ import {CategoryList, CategoryState, ProductItem} from '../types/datatypes';
 import CategoryFilter from '../components/CategoryFilter';
 import ItemCard from '../components/ItemCard';
 import NotFound from '../components/NotFound';
+import { RootStackParamList, RootTabParamList } from '../types/navigation';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
+
+type Props = CompositeScreenProps<
+  BottomTabScreenProps<RootTabParamList, 'Home'>,
+  NativeStackScreenProps<RootStackParamList>
+>;
 export const getCategoriesFromData = (data: ProductItem[]): CategoryList => {
   if (!data.length) return [];
 
@@ -49,7 +57,7 @@ export const getCoffeeList = (
   return data.filter(item => item.name === category);
 };
 
-const HomeScreen = ({navigation}:any) => {
+const HomeScreen = ({navigation}:Props) => {
   const listRef = useRef<FlatList>(null);
 
   const coffeeList = useMyStore((state: any) => state.CoffeeList);
@@ -169,7 +177,7 @@ useEffect(() => {
             ListEmptyComponent={<NotFound/>}
             keyExtractor={item => item.id}
             renderItem={({item}) => (
-              <TouchableOpacity onPress={() => {navigation.push('Details')}}>
+              <TouchableOpacity onPress={() => {navigation.push('Details',{id:'123'})}}>
                 <ItemCard item={item} />
               </TouchableOpacity>
             )}

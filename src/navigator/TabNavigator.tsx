@@ -8,8 +8,9 @@ import OrderScreen from '../screens/OrderScreen';
 import {COLORS} from '../theme/theme';
 import {BlurView} from '@react-native-community/blur';
 import CustomIcon from '../components/CustomIcon';
+import { RootTabParamList } from '../types/navigation';
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<RootTabParamList>();
 
 const BlurViewComP = () => {
   return (
