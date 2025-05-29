@@ -5,11 +5,14 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import {getCoffeeList} from '../screens/HomeScreen';
 import {COLORS, FONTFAMILY, SPACING} from '../theme/theme';
 
 import {CategoryState, ProductItem} from '../types/datatypes';
+
+
 
 interface CategoryFilterProps {
   categories: string[];
@@ -17,6 +20,7 @@ interface CategoryFilterProps {
   categoryIndex: CategoryState;
   setSortedCoffee: (list: ProductItem[]) => void;
   coffeeList: ProductItem[];
+ listRef: React.RefObject<FlatList<any> | null>;
 }
 
 const CategoryFilter = ({
@@ -25,6 +29,7 @@ const CategoryFilter = ({
   categoryIndex,
   setSortedCoffee,
   coffeeList,
+  listRef
 }: CategoryFilterProps) => {
   return (
     <ScrollView
@@ -37,6 +42,10 @@ const CategoryFilter = ({
           <TouchableOpacity
             style={styles.categoryScrollItem}
             onPress={() => {
+              listRef?.current?.scrollToOffset({
+                  animated:true,
+                  offset:0,
+              })
               setCategoryIndex({index: index, category: categories[index]});
               setSortedCoffee([
                 ...getCoffeeList(categories[index], coffeeList),
