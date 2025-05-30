@@ -1,7 +1,7 @@
 // src/types/navigation.ts (same file)
 export type RootStackParamList = {
   Tab: undefined;
-  Details: { id: string } ;
+  Details: { id: string , type:string } ;
   Payment: undefined;
 };
 

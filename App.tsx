@@ -19,8 +19,9 @@ const App = () => {
         />
         <Stack.Screen
           name="Details"
+        
           component={DetailsScreen}
-          options={{animation: 'slide_from_bottom'}}
+          options={{animation: 'slide_from_bottom',headerShown: false,}}
         />
         <Stack.Screen
           name="Payment"

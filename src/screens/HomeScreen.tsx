@@ -177,7 +177,7 @@ useEffect(() => {
             ListEmptyComponent={<NotFound/>}
             keyExtractor={item => item.id}
             renderItem={({item}) => (
-              <TouchableOpacity onPress={() => {navigation.push('Details',{id:'123'})}}>
+              <TouchableOpacity onPress={() => {navigation.push('Details',{id:item.id , type: item.type})}}>
                 <ItemCard item={item} />
               </TouchableOpacity>
             )}
