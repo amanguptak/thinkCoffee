@@ -8,18 +8,21 @@ import { COLORS } from '../theme/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Description from '../components/Description';
 import SizeSelect from '../components/SizeSelect';
+import CustomFooter from '../components/CustomFooter';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
 
 const DetailsScreen = ({navigation, route}: Props) => {
 
-const [selectedPrice , setSelectedPrice] = useState('')
+
 
   const item = useMyStore(state =>
     route.params.type === 'Coffee'
       ? state.CoffeeMap[route.params.id]
       : state.BeanMap[route.params.id],
   );
+
+  const [selectedPrice , setSelectedPrice] = useState(item.prices[item.prices.length-1].price)
   const addToFavorites = useMyStore((state) => state.addToFavorites);
 const removeFromFavorites = useMyStore((state) => state.removeFromFavorites);
 
@@ -48,6 +51,12 @@ const toggleFav = (fav:boolean,id:string)=>{
             prices={item.prices}
             selectedPrice={selectedPrice}
             setSelectedPrice={setSelectedPrice}
+          
+          />
+          <CustomFooter
+          price={selectedPrice}
+          buttonTitle='Add to Cart'
+          buttonPressHandler={()=>{}}
           
           />
         </ScrollView>

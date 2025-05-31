@@ -1,6 +1,6 @@
-import { create } from 'zustand';
+import {create} from 'zustand';
 
-import { produce } from 'immer';
+import {produce} from 'immer';
 import CoffeeData from '../data/CoffeeData';
 import BeansData from '../data/BeansData';
 import {persist, createJSONStorage} from 'zustand/middleware';
@@ -21,15 +21,13 @@ type CartItem = {
   [key: string]: any; // support other props (like images, etc.)
 };
 
-
 // A generic utility function to convert an array of objects with `id` fields into an object map
-const normalizeList = <T extends { id: string }>(list: T[]) => {
+const normalizeList = <T extends {id: string}>(list: T[]) => {
   return list.reduce((acc, item) => {
     acc[item.id] = item; // Use item's 'id' as the key, and store the full item as the value
-    return acc;           // Return the accumulator so it can be used in the next iteration
+    return acc; // Return the accumulator so it can be used in the next iteration
   }, {} as Record<string, T>); // Start with an empty object, and type it as a map of id → item
 };
-
 
 // [
 //   { id: 'coffee_1', name: 'Latte', price: 120 },
@@ -43,11 +41,8 @@ const normalizeList = <T extends { id: string }>(list: T[]) => {
 //   coffee_2: { id: 'coffee_2', name: 'Espresso', price: 100 },
 // }
 
-
-
 const CoffeeMap = normalizeList(CoffeeData);
 const BeanMap = normalizeList(BeansData);
-
 
 // Zustand state + actions
 type StoreState = {
@@ -59,13 +54,14 @@ type StoreState = {
   CartPrice: number;
   CartQuantity: number;
   CoffeeMap: Record<string, (typeof CoffeeData)[number]>; // 👈 ADD THIS
-  BeanMap: Record<string, (typeof BeansData)[number]>;   // 👈 ADD THIS
+  BeanMap: Record<string, (typeof BeansData)[number]>; // 👈 ADD THIS
   // Actions
   addToCart: (item: CartItem) => void;
   removeFromCart: (id: string, size: string) => void;
   decreaseCart: (id: string, size: string) => void;
   addToFavorites: (item: any) => void;
-removeFromFavorites: (id: string) => void;
+  removeFromFavorites: (id: string) => void;
+  increaseCart: (id: string, size: string) => void;
 
   clearCart: () => void;
   getTotals: () => void;
@@ -73,10 +69,10 @@ removeFromFavorites: (id: string) => void;
 
 export const useMyStore = create<StoreState>()(
   persist(
-    (set) => ({
+    set => ({
       // Static data
-      CoffeeList: CoffeeData,       // ✅ still used for listing
-      CoffeeMap: CoffeeMap,         // ✅ new, used for detail screen
+      CoffeeList: CoffeeData, // ✅ still used for listing
+      CoffeeMap: CoffeeMap, // ✅ new, used for detail screen
       BeanList: BeansData,
       BeanMap: BeanMap,
 
@@ -88,12 +84,12 @@ export const useMyStore = create<StoreState>()(
       CartQuantity: 0,
 
       // ✅ Add to cart logic
-      addToCart: (item) =>
+      addToCart: item =>
         set(
           produce((state: StoreState) => {
             // Find if item is already in cart (by ID)
             const existingItem = state.CartList.find(
-              (cartItem) => cartItem.id === item.id
+              cartItem => cartItem.id === item.id,
             );
 
             // Assume only one size being added at a time
@@ -102,7 +98,7 @@ export const useMyStore = create<StoreState>()(
             if (existingItem) {
               // Check if same size already exists
               const existingSize = existingItem.prices.find(
-                (p) => p.size === incomingPrice.size
+                p => p.size === incomingPrice.size,
               );
 
               if (existingSize) {
@@ -110,7 +106,7 @@ export const useMyStore = create<StoreState>()(
                 existingSize.quantity += 1;
               } else {
                 // If not → push new size with quantity 1
-                existingItem.prices.push({ ...incomingPrice, quantity: 1 });
+                existingItem.prices.push({...incomingPrice, quantity: 1});
               }
 
               // Optional: sort sizes for consistency
@@ -119,37 +115,37 @@ export const useMyStore = create<StoreState>()(
               // If item doesn't exist at all → add new item to cart
               state.CartList.push({
                 ...item,
-                prices: [{ ...incomingPrice, quantity: 1 }],
+                prices: [{...incomingPrice, quantity: 1}],
               });
             }
-          })
+          }),
         ),
 
       // ❌ Remove size from cart (or entire item if last size)
       removeFromCart: (id, size) =>
         set(
           produce((state: StoreState) => {
-            const item = state.CartList.find((item) => item.id === id);
+            const item = state.CartList.find(item => item.id === id);
             if (!item) return;
 
             // Remove just that size
-            item.prices = item.prices.filter((p) => p.size !== size);
+            item.prices = item.prices.filter(p => p.size !== size);
 
             // If no sizes left → remove the whole item
             if (item.prices.length === 0) {
-              state.CartList = state.CartList.filter((i) => i.id !== id);
+              state.CartList = state.CartList.filter(i => i.id !== id);
             }
-          })
+          }),
         ),
 
       // ➖ Decrease quantity for a size, or remove size if quantity is 1
       decreaseCart: (id, size) =>
         set(
           produce((state: StoreState) => {
-            const item = state.CartList.find((item) => item.id === id);
+            const item = state.CartList.find(item => item.id === id);
             if (!item) return;
 
-            const price = item.prices.find((p) => p.size === size);
+            const price = item.prices.find(p => p.size === size);
             if (!price) return;
 
             if (price.quantity > 1) {
@@ -157,14 +153,27 @@ export const useMyStore = create<StoreState>()(
               price.quantity -= 1;
             } else {
               // If quantity is 1, remove that size
-              item.prices = item.prices.filter((p) => p.size !== size);
+              item.prices = item.prices.filter(p => p.size !== size);
 
               // Remove whole item if no sizes left
               if (item.prices.length === 0) {
-                state.CartList = state.CartList.filter((i) => i.id !== id);
+                state.CartList = state.CartList.filter(i => i.id !== id);
               }
             }
-          })
+          }),
+        ),
+
+      increaseCart: (id: string, size: string) =>
+        set(
+          produce((state: StoreState) => {
+            const item = state.CartList.find(item => item.id === id);
+            if (!item) return;
+
+            const sizeEntry = item.prices.find(p => p.size === size);
+            if (!sizeEntry) return;
+
+            sizeEntry.quantity += 1;
+          }),
         ),
 
       // 🗑 Clear entire cart
@@ -172,44 +181,67 @@ export const useMyStore = create<StoreState>()(
         set(
           produce((state: StoreState) => {
             state.CartList = [];
-          })
+          }),
         ),
-        // ⭐ Add item to favorites if not already present
-addToFavorites: (id: string) =>
-  set(
-    produce((state: StoreState) => {
-      // 🔍 Try to get the item from CoffeeMap or BeanMap
-      const item = state.CoffeeMap[id] || state.BeanMap[id];
-      if (!item) return;
+      // ⭐ Add item to favorites if not already present
+      addToFavorites: (id: string) =>
+        set(
+          produce((state: StoreState) => {
+            // 🔍 Try to get the item from CoffeeMap or BeanMap
+            const item = state.CoffeeMap[id] || state.BeanMap[id];
+            if (!item) return;
 
-      // ✅ Avoid duplicate
-      const alreadyExists = state.FavoritesList.some((fav) => fav.id === id);
-      if (!alreadyExists) {
-        state.FavoritesList.push(item);
-      }
+            // ✅ Avoid duplicate
+            const alreadyExists = state.FavoritesList.some(
+              fav => fav.id === id,
+            );
+            if (!alreadyExists) {
+              state.FavoritesList.push(item);
+            }
 
-      // ✅ Set favourite = true
-      item.favourite = true;
-    })
-  ),
+            // ✅ Set favourite = true
+            item.favourite = true;
+          }),
+        ),
 
+      // ❌ Remove item from favorites by ID
+      removeFromFavorites: (id: string) =>
+        set(
+          produce((state: StoreState) => {
+            state.FavoritesList = state.FavoritesList.filter(
+              fav => fav.id !== id,
+            );
 
-// ❌ Remove item from favorites by ID
-removeFromFavorites: (id: string) =>
-  set(
-    produce((state: StoreState) => {
-      state.FavoritesList = state.FavoritesList.filter((fav) => fav.id !== id);
+            // ✅ Reset favourite flag
+            if (state.CoffeeMap[id]) {
+              state.CoffeeMap[id].favourite = false;
+            } else if (state.BeanMap[id]) {
+              state.BeanMap[id].favourite = false;
+            }
+          }),
+        ),
+      // ✅ Add order to history and clear cart
+      addOrderToHistory: () =>
+        set(
+          produce((state: StoreState) => {
+            if (state.CartList.length === 0) return;
 
-      // ✅ Reset favourite flag
-      if (state.CoffeeMap[id]) {
-        state.CoffeeMap[id].favourite = false;
-      } else if (state.BeanMap[id]) {
-        state.BeanMap[id].favourite = false;
-      }
-    })
-  ),
+            const order = {
+              id: `order_${Date.now()}`, // unique ID
+              items: [...state.CartList],
+              date: new Date().toISOString(),
+              total: state.CartPrice,
+              quantity: state.CartQuantity,
+            };
 
+            state.OrderHistoryList.push(order);
 
+            // Optionally clear the cart
+            state.CartList = [];
+            state.CartPrice = 0;
+            state.CartQuantity = 0;
+          }),
+        ),
 
       // 🧮 Calculate total price and quantity
       getTotals: () =>
@@ -219,8 +251,8 @@ removeFromFavorites: (id: string) =>
             let quantity = 0;
 
             // Loop through each item and each size
-            state.CartList.forEach((item) => {
-              item.prices.forEach((p) => {
+            state.CartList.forEach(item => {
+              item.prices.forEach(p => {
                 total += p.quantity * (p.price || 0);
                 quantity += p.quantity;
               });
@@ -228,13 +260,13 @@ removeFromFavorites: (id: string) =>
 
             state.CartPrice = total;
             state.CartQuantity = quantity;
-          })
+          }),
         ),
     }),
-    
-      {
+
+    {
       name: 'coffee-app',
       storage: createJSONStorage(() => AsyncStorage),
-    }
-  )
+    },
+  ),
 );
