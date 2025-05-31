@@ -1,15 +1,20 @@
 import { ScrollView, StatusBar, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
 import {useMyStore} from '../store/store';
 import ItemImage from '../components/ItemImage';
 import { COLORS } from '../theme/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Description from '../components/Description';
+import SizeSelect from '../components/SizeSelect';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
 
 const DetailsScreen = ({navigation, route}: Props) => {
+
+const [selectedPrice , setSelectedPrice] = useState('')
+
   const item = useMyStore(state =>
     route.params.type === 'Coffee'
       ? state.CoffeeMap[route.params.id]
@@ -36,7 +41,15 @@ const toggleFav = (fav:boolean,id:string)=>{
           backHandler={goBack}
           toggleFav={toggleFav}
         />
-
+          <Description
+            desc={item.description}
+          />
+          <SizeSelect
+            prices={item.prices}
+            selectedPrice={selectedPrice}
+            setSelectedPrice={setSelectedPrice}
+          
+          />
         </ScrollView>
     </SafeAreaView>
   );
@@ -47,8 +60,9 @@ export default DetailsScreen;
 const styles = StyleSheet.create({
 
   screenContainer:{
- flex: 1,
+    flex: 1,
     backgroundColor: COLORS.primaryBlackHex,
+    justifyContent:'space-between'
   },
   mainDetailView:{
      flexGrow: 1,
