@@ -1,19 +1,43 @@
-import {StyleSheet, Text, View, FlatList, ScrollView, TouchableOpacity} from 'react-native';
-import React from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import React, {useEffect} from 'react';
 import {useMyStore} from '../store/store';
 import HeaderBar from '../components/HeaderBar';
 import {COLORS} from '../theme/theme';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 import EmptyList from '../components/EmptyList';
+import CustomFooter from '../components/CustomFooter';
+import Toast from 'react-native-toast-message';
 // update path if needed
 
 const CartScreen = () => {
   const cartList = useMyStore(state => state.CartList);
   const cartPrice = useMyStore(state => state.CartPrice);
-  const clearCart = useMyStore(state=> state.clearCart)
+  const clearCart = useMyStore(state => state.clearCart);
+  const getTotals = useMyStore(state => state.getTotals);
   const tabBarHeight = useBottomTabBarHeight();
-  console.log(cartList, 'cartlist');
+  console.log(cartList, cartPrice, 'cartlist');
+
+  const removeCart = ()=>{
+    clearCart(),
+    Toast.show({
+      type: 'success', // now uses your custom component
+      text1: 'Cart is Cleared successfully! ☕️',
+
+      position: 'bottom',
+    });
+  }
+
+  useEffect(() => {
+    getTotals();
+  }, [cartList]);
 
   return (
     <SafeAreaView style={styles.screenContainer}>
@@ -24,16 +48,25 @@ const CartScreen = () => {
           {marginBottom: tabBarHeight},
         ]}>
         <HeaderBar title="cart" />
-        {cartList.length === 0 ? <EmptyList title="Cart is Empty" /> : <View>
-          
-          </View>}
+        {cartList.length === 0 ? (
+          <EmptyList title="Cart is Empty" />
+        ) : (
+          <View></View>
+        )}
 
         <View>
-          <TouchableOpacity onPress={clearCart}>
-
-            <Text>Clear</Text>
-          </TouchableOpacity>
+         
         </View>
+        {cartList.length !== 0 && (
+          <>
+            <CustomFooter
+              buttonTitle="Pay"
+              price={cartPrice}
+              buttonPressHandler={() => {}}
+              removeCart={removeCart}
+            />
+          </>
+        )}
       </ScrollView>
       {/* 
       <FlatList
@@ -65,11 +98,9 @@ const styles = StyleSheet.create({
 
   scrollContent: {
     flexGrow: 1,
-  },
-  innerContainer: {
-    flex: 1,
     justifyContent: 'space-between',
   },
+
   itemCard: {
     marginBottom: 16,
     padding: 12,

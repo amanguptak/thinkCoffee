@@ -1,6 +1,13 @@
-
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
-import {BORDERRADIUS, COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/theme';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  BORDERRADIUS,
+  COLORS,
+  FONTFAMILY,
+  FONTSIZE,
+  SPACING,
+} from '../theme/theme';
+import CustomIcon from './CustomIcon';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // interface PriceProp{
 //      price: string;
@@ -8,21 +15,38 @@ import {BORDERRADIUS, COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/them
 // }
 
 interface CustomFooterProps {
-    price: string,
-    buttonPressHandler : ()=>void,
-    buttonTitle:string
-
+  price: number;
+  buttonPressHandler: () => void;
+  buttonTitle: string;
+  removeCart?: () => void;
 }
 
-const CustomFooter = ({price,buttonPressHandler,buttonTitle}: CustomFooterProps) => {
+const CustomFooter = ({
+  price,
+  buttonPressHandler,
+  buttonTitle,
+  removeCart,
+}: CustomFooterProps) => {
   return (
     <View style={styles.PriceFooter}>
       <View style={styles.PriceContainer}>
         <Text style={styles.PriceTitle}>Price</Text>
         <Text style={styles.PriceText}>
-            $ <Text style={styles.Price}>{price}</Text>
+          $ <Text style={styles.Price}>{price}</Text>
         </Text>
       </View>
+      {removeCart && (
+        <TouchableOpacity onPress={removeCart}>
+          <View style={styles.clearCart}>
+             <CustomIcon
+           name='close'
+           size={20}
+           color={COLORS.primaryOrangeHex}
+          />
+          {/* <Text> clear</Text> */}
+          </View>
+        </TouchableOpacity>
+      )}
       <TouchableOpacity
         style={styles.PayButton}
         onPress={() => buttonPressHandler()}>
@@ -35,7 +59,7 @@ const CustomFooter = ({price,buttonPressHandler,buttonTitle}: CustomFooterProps)
 export default CustomFooter;
 
 const styles = StyleSheet.create({
- PriceFooter: {
+  PriceFooter: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -72,4 +96,8 @@ const styles = StyleSheet.create({
     fontSize: FONTSIZE.size_18,
     color: COLORS.primaryWhiteHex,
   },
+  clearCart:{
+    alignItems:"center",
+   
+  }
 });
