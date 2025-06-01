@@ -14,7 +14,7 @@ type PriceEntry = {
 };
 
 // Type for each cart item with multiple sizes
-type CartItem = {
+export type CartItem = {
   id: string;
   name: string; // 👈 required!
   prices: PriceEntry[];

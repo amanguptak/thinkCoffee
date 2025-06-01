@@ -7,7 +7,7 @@ import {
   SPACING,
 } from '../theme/theme';
 import CustomIcon from './CustomIcon';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+
 
 // interface PriceProp{
 //      price: string;
@@ -32,7 +32,7 @@ const CustomFooter = ({
       <View style={styles.PriceContainer}>
         <Text style={styles.PriceTitle}>Price</Text>
         <Text style={styles.PriceText}>
-          $ <Text style={styles.Price}>{price}</Text>
+          $ <Text style={styles.Price}>{parseFloat(Number(price).toFixed(2))}</Text>
         </Text>
       </View>
       {removeCart && (
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: SPACING.space_20,
-    padding: SPACING.space_20,
+    padding: SPACING.space_10,
   },
   PriceContainer: {
     alignItems: 'center',

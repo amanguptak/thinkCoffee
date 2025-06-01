@@ -1,20 +1,14 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, View, ScrollView} from 'react-native';
 import React, {useEffect} from 'react';
 import {useMyStore} from '../store/store';
 import HeaderBar from '../components/HeaderBar';
-import {COLORS} from '../theme/theme';
+import {COLORS, SPACING} from '../theme/theme';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 import EmptyList from '../components/EmptyList';
 import CustomFooter from '../components/CustomFooter';
 import Toast from 'react-native-toast-message';
+import CartItems from '../components/CartItems';
 // update path if needed
 
 const CartScreen = () => {
@@ -22,41 +16,51 @@ const CartScreen = () => {
   const cartPrice = useMyStore(state => state.CartPrice);
   const clearCart = useMyStore(state => state.clearCart);
   const getTotals = useMyStore(state => state.getTotals);
+  const decreaseCart = useMyStore(state => state.decreaseCart);
+  const incrementCartItem = useMyStore(state => state.increaseCart);
   const tabBarHeight = useBottomTabBarHeight();
-  console.log(cartList, cartPrice, 'cartlist');
+  console.log(cartList, 'cartlist');
 
-  const removeCart = ()=>{
-    clearCart(),
+  const removeCart = () => {
+    clearCart();
     Toast.show({
       type: 'success', // now uses your custom component
       text1: 'Cart is Cleared successfully! ☕️',
 
       position: 'bottom',
     });
-  }
+  };
 
   useEffect(() => {
     getTotals();
-  }, [cartList]);
+  }, [cartList, getTotals]);
 
   return (
     <SafeAreaView style={styles.screenContainer}>
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={[
-          styles.scrollContent,
-          {marginBottom: tabBarHeight},
-        ]}>
-        <HeaderBar title="cart" />
-        {cartList.length === 0 ? (
-          <EmptyList title="Cart is Empty" />
-        ) : (
-          <View></View>
-        )}
+      <View style={styles.contentWrapper}>
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={[styles.scrollContent]}>
+          <View
+            style={[styles.scrollViewInnerView, {marginBottom: tabBarHeight}]}>
+            <HeaderBar title="cart" />
+            {cartList.length === 0 ? (
+              <EmptyList title="Cart is Empty" />
+            ) : (
+              <View style={styles.listItemsContainer}>
+                {cartList.map(cartItem => (
+                  <CartItems
+                    key={cartItem.id}
+                    cartItem={cartItem}
+                    incrementCartItem={incrementCartItem}
+                    decrementCartItem={decreaseCart}
+                  />
+                ))}
+              </View>
+            )}
+          </View>
+        </ScrollView>
 
-        <View>
-         
-        </View>
         {cartList.length !== 0 && (
           <>
             <CustomFooter
@@ -67,22 +71,7 @@ const CartScreen = () => {
             />
           </>
         )}
-      </ScrollView>
-      {/* 
-      <FlatList
-        data={cartList}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.itemCard}>
-            <Text style={styles.itemName}>{item.name}</Text>
-            {item.prices.map((p) => (
-              <Text key={p.size}>
-                Size: {p.size} | Price: ${p.price} | Qty: {p.quantity}
-              </Text>
-            ))}
-          </View>
-        )}
-      /> */}
+      </View>
     </SafeAreaView>
   );
 };
@@ -91,14 +80,20 @@ export default CartScreen;
 
 const styles = StyleSheet.create({
   screenContainer: {
-    padding: 16,
     backgroundColor: COLORS.primaryBlackHex,
     flex: 1,
   },
 
-  scrollContent: {
-    flexGrow: 1,
+  contentWrapper: {
+    flex: 1,
     justifyContent: 'space-between',
+  },
+  scrollContent: {
+    paddingBottom: SPACING.space_20,
+  },
+
+  scrollViewInnerView: {
+    paddingBottom: SPACING.space_20,
   },
 
   itemCard: {
@@ -111,5 +106,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 4,
+  },
+  listItemsContainer: {
+    paddingHorizontal: SPACING.space_20,
+    gap: SPACING.space_20,
   },
 });

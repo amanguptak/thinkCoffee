@@ -84,7 +84,7 @@ Toast.show({
           setSelectedItem={setSelectedItem}
         />
         <CustomFooter
-          price={selectedItem.price}
+          price={Number(selectedItem.price)}
           buttonTitle="Add to Cart"
           buttonPressHandler={addToCartAction}
         />
