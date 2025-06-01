@@ -48,19 +48,35 @@ interface Color {
 }
 
 export const COLORS: Color = {
-  primaryRedHex: '#DC3535',
-  primaryOrangeHex: '#D17842',
-  primaryBlackHex: '#0c0f14',
-  primaryDarkGreyHex: '#141921',
-  secondaryDarkGreyHex: '#21262E',
-  primaryGreyHex: '#252A32',
-  secondaryGreyHex: '#252A32',
-  primaryLightGreyHex: '#52555A',
-  secondaryLightGreyHex: '#AEAEAE',
-  primaryWhiteHex: '#FFFFFF',
-  primaryBlackRGBA: 'rgba(12,15,20,0.5)',
-  secondaryBlackRGBA: 'rgba(0,0,0,0.7)',
+  primaryRedHex: '#D43C3C',             // Warmer, modern red
+  primaryOrangeHex: '#FF8A5C',          // Soft, inviting coffee orange
+  primaryBlackHex: '#1E1E1E',           // Modern black for backgrounds
+  primaryDarkGreyHex: '#2C2C2E',        // Clean dark grey for cards
+  secondaryDarkGreyHex: '#3A3A3C',      // Slightly lighter than primary dark
+  primaryGreyHex: '#5C5C5C',            // Refined neutral for text
+  secondaryGreyHex: '#737373',          // Secondary muted grey
+  primaryLightGreyHex: '#B5B5B5',       // Lighter touch for placeholders
+  secondaryLightGreyHex: '#D1D1D1',     // Near-white borders or icons
+  primaryWhiteHex: '#FAFAFA',           // Off-white for better contrast
+  primaryBlackRGBA: 'rgba(30,30,30,0.6)',  // Slightly softened black
+  secondaryBlackRGBA: 'rgba(0,0,0,0.5)',   // For subtle shadows
 };
+
+// export const COLORS: Color = {
+//   primaryRedHex: '#FF575C',              // Neon rose — for badges, like ❤️
+//   primaryOrangeHex: '#FFB26B',           // Peach-glow — modern call-to-action
+//   primaryBlackHex: '#0B0A0F',            // Deep obsidian black (main bg)
+//   primaryDarkGreyHex: '#16151D',         // Card & surface base
+//   secondaryDarkGreyHex: '#24222F',       // Secondary panel or nav background
+//   primaryGreyHex: '#6D6A75',             // Muted lilac grey (text labels)
+//   secondaryGreyHex: '#A6A2B2',           // Light metal grey (placeholders)
+//   primaryLightGreyHex: '#D9D5E1',        // Cloud pearl (lines, borders)
+//   secondaryLightGreyHex: '#F3F0F9',      // Lavender white (surface contrast)
+//   primaryWhiteHex: '#FCFBFF',            // Moon milk white (high contrast text)
+//   primaryBlackRGBA: 'rgba(11,10,15,0.7)', // For blur/glass panels
+//   secondaryBlackRGBA: 'rgba(0,0,0,0.45)', // Modals & hover states
+// };
+
 
 interface FontFamily {
   poppins_black: string;
@@ -100,17 +116,18 @@ interface FontSize {
 }
 
 export const FONTSIZE: FontSize = {
-  size_8: 8,
-  size_10: 10,
-  size_12: 12,
-  size_14: 14,
-  size_16: 16,
-  size_18: 18,
-  size_20: 20,
-  size_24: 24,
-  size_28: 28,
-  size_30: 30,
+  size_8: 10,   // For subtle tags, less used
+  size_10: 12,  // Captions or micro-labels
+  size_12: 14,  // Placeholders or secondary text
+  size_14: 16,  // Paragraph or body
+  size_16: 18,  // Section headings
+  size_18: 20,  // Button labels / titles
+  size_20: 22,  // Prominent titles
+  size_24: 26,  // Card headers / section titles
+  size_28: 30,  // Featured screen titles
+  size_30: 32,  // Hero banners or modals
 };
+
 
 interface BorderRadius {
   radius_4: number;

@@ -17,14 +17,16 @@ import {
 
 interface SizeSelectProps {
   prices: Price[];
-  setSelectedPrice: (p: string) => void;
-  selectedPrice: string;
+  // Update function signature
+  setSelectedItem: (payload: {size: string; price: string}) => void;
+
+  selectedItem: {size: string; price: string};
 }
 
 const SizeSelect = ({
   prices,
-  setSelectedPrice,
-  selectedPrice,
+  setSelectedItem,
+  selectedItem,
 }: SizeSelectProps) => {
   return (
     <View style={styles.mainContainer}>
@@ -34,13 +36,13 @@ const SizeSelect = ({
           <TouchableOpacity
             key={p.size}
             onPress={() => {
-              setSelectedPrice(p.price);
+              setSelectedItem({size: p.size, price: p.price});
             }}
             style={[
               styles.selectBtn,
               {
                 borderColor:
-                  p.price === selectedPrice
+                  p.price === selectedItem.price
                     ? COLORS.primaryOrangeHex
                     : 'transparent',
               },
@@ -50,7 +52,7 @@ const SizeSelect = ({
                 styles.sizeText,
                 {
                   color:
-                    p.size === selectedPrice
+                    p.size === selectedItem.size
                       ? COLORS.primaryOrangeHex
                       : COLORS.secondaryLightGreyHex,
                 },
@@ -94,7 +96,6 @@ const styles = StyleSheet.create({
   },
   sizeText: {
     fontFamily: FONTFAMILY.poppins_semibold,
-    fontSize:15,
-  
+    fontSize: 15,
   },
 });

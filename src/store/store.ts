@@ -16,10 +16,11 @@ type PriceEntry = {
 // Type for each cart item with multiple sizes
 type CartItem = {
   id: string;
-  name: string;
-  prices: PriceEntry[]; // multiple sizes per item
-  [key: string]: any; // support other props (like images, etc.)
+  name: string; // 👈 required!
+  prices: PriceEntry[];
+  [key: string]: any; // for image, category, etc.
 };
+
 
 // A generic utility function to convert an array of objects with `id` fields into an object map
 const normalizeList = <T extends {id: string}>(list: T[]) => {
@@ -84,42 +85,38 @@ export const useMyStore = create<StoreState>()(
       CartQuantity: 0,
 
       // ✅ Add to cart logic
-      addToCart: item =>
-        set(
-          produce((state: StoreState) => {
-            // Find if item is already in cart (by ID)
-            const existingItem = state.CartList.find(
-              cartItem => cartItem.id === item.id,
-            );
+    addToCart: (partialItem) =>
+  set(
+    produce((state: StoreState) => {
+      // Auto-fetch full item from CoffeeMap or BeanMap
+      const baseItem = state.CoffeeMap[partialItem.id] || state.BeanMap[partialItem.id];
+      if (!baseItem) return;
 
-            // Assume only one size being added at a time
-            const incomingPrice = item.prices[0];
+      // Merge full item with passed-in price info
+      const incomingPrice = partialItem.prices[0]; // assuming 1 size at a time
+      const existingItem = state.CartList.find((item) => item.id === partialItem.id);
 
-            if (existingItem) {
-              // Check if same size already exists
-              const existingSize = existingItem.prices.find(
-                p => p.size === incomingPrice.size,
-              );
+      if (existingItem) {
+        const existingSize = existingItem.prices.find(
+          (p) => p.size === incomingPrice.size
+        );
 
-              if (existingSize) {
-                // If yes → increment quantity
-                existingSize.quantity += 1;
-              } else {
-                // If not → push new size with quantity 1
-                existingItem.prices.push({...incomingPrice, quantity: 1});
-              }
+        if (existingSize) {
+          existingSize.quantity += 1;
+        } else {
+          existingItem.prices.push({ ...incomingPrice, quantity: 1 });
+        }
 
-              // Optional: sort sizes for consistency
-              existingItem.prices.sort((a, b) => b.size.localeCompare(a.size));
-            } else {
-              // If item doesn't exist at all → add new item to cart
-              state.CartList.push({
-                ...item,
-                prices: [{...incomingPrice, quantity: 1}],
-              });
-            }
-          }),
-        ),
+        existingItem.prices.sort((a, b) => b.size.localeCompare(a.size));
+      } else {
+        state.CartList.push({
+          ...baseItem,              // ✅ auto-filled metadata
+          prices: [{ ...incomingPrice, quantity: 1 }],
+        });
+      }
+    })
+  ),
+
 
       // ❌ Remove size from cart (or entire item if last size)
       removeFromCart: (id, size) =>

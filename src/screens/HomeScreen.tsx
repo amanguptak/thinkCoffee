@@ -111,7 +111,7 @@ useEffect(() => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.ScrollViewFlex}>
-        <HeaderBar title="home" />
+        <HeaderBar />
 
         <Text style={styles.ScreenHeading}>
           Find the best{`\n`}Coffee for you
@@ -191,7 +191,7 @@ useEffect(() => {
             contentContainerStyle={[{marginBottom: tabBarHeight}]}
             keyExtractor={item => item.id}
             renderItem={({item}) => (
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => {navigation.push('Details',{id:item.id , type: item.type})}}>
                 <ItemCard item={item} />
               </TouchableOpacity>
             )}

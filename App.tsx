@@ -5,6 +5,8 @@ import PaymentScreen from './src/screens/PaymentScreen';
 import TabNavigator from './src/navigator/TabNavigator';
 import DetailsScreen from './src/screens/DetailsScreen';
 import {RootStackParamList} from './src/types/navigation';
+import Toast from 'react-native-toast-message';
+import CustomSuccessToast from './src/components/CustomToast';
 
 
 const App = () => {
@@ -29,6 +31,11 @@ const App = () => {
           options={{animation: 'slide_from_bottom'}}
         />
       </Stack.Navigator>
+      <Toast
+  config={{
+    success: (props) => <CustomSuccessToast {...props} />,
+  }}
+/>
     </NavigationContainer>
   );
 };
