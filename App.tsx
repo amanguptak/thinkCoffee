@@ -21,7 +21,6 @@ const App = () => {
         />
         <Stack.Screen
           name="Details"
-        
           component={DetailsScreen}
           options={{animation: 'slide_from_bottom',headerShown: false,}}
         />

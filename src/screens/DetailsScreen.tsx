@@ -2,6 +2,7 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
+  View,
 
 
 } from 'react-native';
@@ -56,7 +57,7 @@ Toast.show({
   position: 'bottom',
 });
     // navigation.navigate('Cart') this is not correct way
-    // navigation.navigate('Tab', {screen: 'Cart'});
+    navigation.navigate('Tab', {screen: 'Cart'});
   };
 
   const goBack = () => {
@@ -66,7 +67,7 @@ Toast.show({
     fav ? removeFromFavorites(id) : addToFavorites(id);
   };
   return (
-    <SafeAreaView style={styles.screenContainer}>
+    <View style={styles.screenContainer}>
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -89,7 +90,7 @@ Toast.show({
           buttonPressHandler={addToCartAction}
         />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

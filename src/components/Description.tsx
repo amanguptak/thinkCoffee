@@ -1,31 +1,19 @@
-import {useState, useEffect} from 'react';
+import { useState } from 'react';
 import {
   Text,
   View,
   StyleSheet,
   TouchableWithoutFeedback,
   LayoutAnimation,
-  Platform,
-  UIManager,
 } from 'react-native';
-import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/theme';
+import { COLORS, FONTFAMILY, FONTSIZE, SPACING } from '../theme/theme';
 
 interface DescriptionProps {
   desc: string;
 }
 
-const Description = ({desc}: DescriptionProps) => {
+const Description = ({ desc }: DescriptionProps) => {
   const [viewMore, setViewMore] = useState(true);
-
-  // Enable animation for Android
-  useEffect(() => {
-    if (
-      Platform.OS === 'android' &&
-      UIManager.setLayoutAnimationEnabledExperimental
-    ) {
-      UIManager.setLayoutAnimationEnabledExperimental(true);
-    }
-  }, []);
 
   const toggleView = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -40,7 +28,8 @@ const Description = ({desc}: DescriptionProps) => {
         <View>
           <Text
             numberOfLines={viewMore ? 3 : undefined}
-            style={styles.descriptionText}>
+            style={styles.descriptionText}
+          >
             {desc}
           </Text>
 

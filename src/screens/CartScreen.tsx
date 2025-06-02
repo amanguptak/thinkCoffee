@@ -4,14 +4,22 @@ import {useMyStore} from '../store/store';
 import HeaderBar from '../components/HeaderBar';
 import {COLORS, SPACING} from '../theme/theme';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
+import {BottomTabScreenProps, useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 import EmptyList from '../components/EmptyList';
 import CustomFooter from '../components/CustomFooter';
 import Toast from 'react-native-toast-message';
 import CartItems from '../components/CartItems';
-// update path if needed
+import { RootStackParamList, RootTabParamList } from '../types/navigation';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-const CartScreen = () => {
+type Props = CompositeScreenProps<
+  BottomTabScreenProps<RootTabParamList,'Cart'>,
+  NativeStackScreenProps<RootStackParamList>
+>;
+
+
+const CartScreen = ({navigation}:Props) => {
   const cartList = useMyStore(state => state.CartList);
   const cartPrice = useMyStore(state => state.CartPrice);
   const clearCart = useMyStore(state => state.clearCart);
@@ -30,6 +38,11 @@ const CartScreen = () => {
       position: 'bottom',
     });
   };
+
+  const goDetails = (id:string , itemType:string)=>{
+    // {navigation.push('Details',{id:item.id , type: item.type})}
+    navigation.navigate('Details' , {id:id , type:itemType})
+  }
 
   useEffect(() => {
     getTotals();
@@ -54,6 +67,7 @@ const CartScreen = () => {
                     cartItem={cartItem}
                     incrementCartItem={incrementCartItem}
                     decrementCartItem={decreaseCart}
+                    goDetails={goDetails}
                   />
                 ))}
               </View>
@@ -62,14 +76,14 @@ const CartScreen = () => {
         </ScrollView>
 
         {cartList.length !== 0 && (
-          <>
+          <View style={{marginBottom: tabBarHeight}}>
             <CustomFooter
               buttonTitle="Pay"
               price={cartPrice}
               buttonPressHandler={() => {}}
               removeCart={removeCart}
             />
-          </>
+          </View>
         )}
       </View>
     </SafeAreaView>

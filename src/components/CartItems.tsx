@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { CartItem } from '../store/store';
+import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {CartItem} from '../store/store';
 import {
   BORDERRADIUS,
   COLORS,
@@ -15,47 +15,65 @@ interface CartItemsProps {
   cartItem: CartItem;
   decrementCartItem: (id: string, size: string) => void;
   incrementCartItem: (id: string, size: string) => void;
+  goDetails: (id: string, itemType: string) => void;
 }
 
 const CartItems = ({
   cartItem,
   decrementCartItem,
   incrementCartItem,
+  goDetails,
 }: CartItemsProps) => {
   return (
     <View>
       {cartItem.prices.length > 1 ? (
         <LinearGradient
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 1}}
           colors={[COLORS.primaryGreyHex, COLORS.primaryDarkGreyHex]}
           style={styles.multiSizeItem}>
           <View style={styles.itemRow}>
-            <Image source={cartItem.imagelink_square} style={styles.itemImage} />
-            <View style={styles.itemInfo}>
+
+              <Image
+                source={cartItem.imagelink_square}
+                style={styles.itemImage}
+              />
+            <TouchableOpacity
+              onPress={() => {
+                goDetails(cartItem.id, cartItem.type);
+              }}>
+
+                <View style={styles.itemInfo}>
               <View>
                 <Text style={styles.itemTitle}>{cartItem.name}</Text>
-                <Text style={styles.itemSubtitle}>{cartItem.special_ingredient}</Text>
+                <Text style={styles.itemSubtitle}>
+                  {cartItem.special_ingredient}
+                </Text>
               </View>
               <View style={styles.roastBadge}>
                 <Text style={styles.roastText}>{cartItem.roasted}</Text>
               </View>
             </View>
+            
+            </TouchableOpacity>
+
+            
           </View>
 
-          {cartItem.prices.map((p) => (
+          {cartItem.prices.map(p => (
             <View key={p.size} style={styles.sizeRow}>
               <View style={styles.sizeInfo}>
                 <View style={styles.sizeBox}>
-                  <Text style={[
-                    styles.sizeText,
-                    {
-                      fontSize:
-                        cartItem.type === 'Bean'
-                          ? FONTSIZE.size_12
-                          : FONTSIZE.size_16,
-                    },
-                  ]}>
+                  <Text
+                    style={[
+                      styles.sizeText,
+                      {
+                        fontSize:
+                          cartItem.type === 'Bean'
+                            ? FONTSIZE.size_12
+                            : FONTSIZE.size_16,
+                      },
+                    ]}>
                     {p.size}
                   </Text>
                 </View>
@@ -95,30 +113,30 @@ const CartItems = ({
         </LinearGradient>
       ) : (
         <LinearGradient
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 1}}
           colors={[COLORS.primaryGreyHex, COLORS.primaryDarkGreyHex]}
           style={styles.singleSizeItem}>
-          <Image
-            source={cartItem.imagelink_square}
-            style={styles.itemImage}
-          />
+          <Image source={cartItem.imagelink_square} style={styles.itemImage} />
           <View style={styles.singleInfo}>
             <View>
               <Text style={styles.itemTitle}>{cartItem.name}</Text>
-              <Text style={styles.itemSubtitle}>{cartItem.special_ingredient}</Text>
+              <Text style={styles.itemSubtitle}>
+                {cartItem.special_ingredient}
+              </Text>
             </View>
             <View style={styles.singleSizeRow}>
               <View style={styles.sizeBox}>
-                <Text style={[
-                  styles.sizeText,
-                  {
-                    fontSize:
-                      cartItem.type === 'Bean'
-                        ? FONTSIZE.size_12
-                        : FONTSIZE.size_16,
-                  },
-                ]}>
+                <Text
+                  style={[
+                    styles.sizeText,
+                    {
+                      fontSize:
+                        cartItem.type === 'Bean'
+                          ? FONTSIZE.size_12
+                          : FONTSIZE.size_16,
+                    },
+                  ]}>
                   {cartItem.prices[0].size}
                 </Text>
               </View>
@@ -132,7 +150,9 @@ const CartItems = ({
             <View style={styles.singleQuantityControl}>
               <TouchableOpacity
                 style={styles.quantityButton}
-                onPress={() => decrementCartItem(cartItem.id, cartItem.prices[0].size)}>
+                onPress={() =>
+                  decrementCartItem(cartItem.id, cartItem.prices[0].size)
+                }>
                 <CustomIcon
                   name="minus"
                   color={COLORS.primaryWhiteHex}
@@ -146,7 +166,9 @@ const CartItems = ({
               </View>
               <TouchableOpacity
                 style={styles.quantityButton}
-                onPress={() => incrementCartItem(cartItem.id, cartItem.prices[0].size)}>
+                onPress={() =>
+                  incrementCartItem(cartItem.id, cartItem.prices[0].size)
+                }>
                 <CustomIcon
                   name="add"
                   color={COLORS.primaryWhiteHex}
@@ -195,7 +217,7 @@ const styles = StyleSheet.create({
     color: COLORS.secondaryLightGreyHex,
   },
   roastBadge: {
-     height: 45,
+    height: 45,
     width: 70 * 2 + SPACING.space_20,
     borderRadius: 12,
     justifyContent: 'center',
@@ -213,12 +235,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: SPACING.space_12,
   },
-  singleSizeRow:{
-     flexDirection: 'row',
+  singleSizeRow: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: SPACING.space_24,
-
   },
   sizeInfo: {
     flex: 1,
@@ -247,7 +268,6 @@ const styles = StyleSheet.create({
     color: COLORS.primaryWhiteHex,
   },
   quantityControl: {
-  
     flexDirection: 'row',
     alignItems: 'center',
     gap: SPACING.space_12,
@@ -262,8 +282,8 @@ const styles = StyleSheet.create({
     minWidth: 60,
     alignItems: 'center',
   },
-  singleQuantityBox:{
-backgroundColor: COLORS.primaryBlackHex,
+  singleQuantityBox: {
+    backgroundColor: COLORS.primaryBlackHex,
     borderRadius: BORDERRADIUS.radius_10,
     borderWidth: 1,
     borderColor: COLORS.primaryOrangeHex,
@@ -282,12 +302,10 @@ backgroundColor: COLORS.primaryBlackHex,
     backgroundColor: COLORS.primaryOrangeHex,
     borderRadius: BORDERRADIUS.radius_10,
   },
-  singleQuantityControl:{
-     flexDirection: 'row',
+  singleQuantityControl: {
+    flexDirection: 'row',
     alignItems: 'center',
     gap: SPACING.space_18,
-    
-
   },
   singleSizeItem: {
     flexDirection: 'row',
@@ -297,7 +315,6 @@ backgroundColor: COLORS.primaryBlackHex,
     borderRadius: BORDERRADIUS.radius_25,
   },
   singleInfo: {
-    
     justifyContent: 'space-between',
     gap: 4,
   },

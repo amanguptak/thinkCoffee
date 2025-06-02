@@ -8,13 +8,13 @@ import {
 } from 'react-native';
 import CoffeeData from '../data/CoffeeData';
 import GradientBgIcon from './GradientBgIcon';
-import {BORDERRADIUS, COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/theme';
+import { BORDERRADIUS, COLORS, FONTFAMILY, FONTSIZE, SPACING } from '../theme/theme';
 import CustomIcon from './CustomIcon';
 
 interface ItemImageProps {
   enableBack: boolean;
   detailItem: (typeof CoffeeData)[number];
-  backHandler: () => void;
+  backHandler?: () => void;
   toggleFav: (fav: boolean, id: string) => void;
 }
 
@@ -55,7 +55,9 @@ const ItemImage = ({
           </View>
         ) : (
           <View style={styles.headerWithoutBack}>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity onPress={() => {
+                toggleFav(detailItem.favourite, detailItem.id);
+              }}>
               <GradientBgIcon
                 name="like"
                 color={
@@ -141,11 +143,17 @@ const ItemImage = ({
 export default ItemImage;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+      overflow: 'hidden', // ✅ required to clip children
+  borderTopLeftRadius: 30,
+  borderTopRightRadius: 30,
+  },
   itemImage: {
     width: '100%',
     aspectRatio: 20 / 25,
     justifyContent: 'space-between',
+
+   
   },
   headerWithBack: {
     padding: SPACING.space_30,
@@ -153,12 +161,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginTop:15,
   },
   headerWithoutBack: {
     padding: SPACING.space_30,
     display: 'flex',
 
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'flex-end',
   },
   imgFooter: {
