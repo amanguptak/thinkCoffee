@@ -27,7 +27,7 @@ const App = () => {
         <Stack.Screen
           name="Payment"
           component={PaymentScreen}
-          options={{animation: 'slide_from_bottom'}}
+          options={{animation: 'slide_from_bottom' , headerShown: false}}
         />
       </Stack.Navigator>
       <Toast

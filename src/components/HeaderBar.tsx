@@ -1,20 +1,28 @@
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/theme';
 import GradientBgIcon from './GradientBgIcon';
 import ProfilePic from './ProfilePic';
 
 interface HeaderBarProps {
   title?: string;
+  enableBack?:boolean,
+  backHandler?:()=>void,
 }
 
-const HeaderBar = ({title}: HeaderBarProps) => {
+const HeaderBar = ({title ,enableBack=false , backHandler}: HeaderBarProps) => {
   return (
     <View style={styles.HeaderContainer}>
-      <GradientBgIcon
+     {!enableBack ? <GradientBgIcon
         name="menu"
         color={COLORS.primaryLightGreyHex}
         size={FONTSIZE.size_16}
-      />
+      />  :  <TouchableOpacity onPress={backHandler}>
+              <GradientBgIcon
+                name="left"
+                color={COLORS.primaryLightGreyHex}
+                size={FONTSIZE.size_16}
+              />
+            </TouchableOpacity>} 
       <Text style={styles.HeaderText}>{title}</Text>
       <ProfilePic />
     </View>

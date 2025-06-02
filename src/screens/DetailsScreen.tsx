@@ -14,7 +14,7 @@ import {RootStackParamList} from '../types/navigation';
 import {useMyStore} from '../store/store';
 import ItemImage from '../components/ItemImage';
 import {COLORS} from '../theme/theme';
-import {SafeAreaView} from 'react-native-safe-area-context';
+// import {SafeAreaView} from 'react-native-safe-area-context';
 import Description from '../components/Description';
 import SizeSelect from '../components/SizeSelect';
 import CustomFooter from '../components/CustomFooter';

@@ -48,6 +48,10 @@ const CartScreen = ({navigation}:Props) => {
     getTotals();
   }, [cartList, getTotals]);
 
+  const goPayment = ()=>{
+      navigation.navigate('Payment',{price:cartPrice})
+  }
+
   return (
     <SafeAreaView style={styles.screenContainer}>
       <View style={styles.contentWrapper}>
@@ -80,7 +84,7 @@ const CartScreen = ({navigation}:Props) => {
             <CustomFooter
               buttonTitle="Pay"
               price={cartPrice}
-              buttonPressHandler={() => {}}
+              buttonPressHandler={goPayment}
               removeCart={removeCart}
             />
           </View>

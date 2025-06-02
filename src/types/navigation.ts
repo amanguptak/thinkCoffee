@@ -6,7 +6,7 @@ export type RootStackParamList = {
 
   // Tab: NavigatorScreenParams<RootTabParamList> means that the Tab screen is actually a navigator (not just a screen), and you can navigate to its inner screens like 'Cart' using nested params.
   Details: {id: string; type: string};
-  Payment: undefined;
+  Payment: {price:number};
 };
 
 // src/types/navigation.ts
