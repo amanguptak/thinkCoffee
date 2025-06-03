@@ -66,6 +66,7 @@ type StoreState = {
 
   clearCart: () => void;
   getTotals: () => void;
+  addOrderToHistory: () => void;
 };
 
 export const useMyStore = create<StoreState>()(
@@ -83,6 +84,8 @@ export const useMyStore = create<StoreState>()(
       CartList: [],
       CartPrice: 0,
       CartQuantity: 0,
+
+      
 
       // ✅ Add to cart logic
     addToCart: (partialItem) =>
@@ -218,27 +221,37 @@ export const useMyStore = create<StoreState>()(
           }),
         ),
       // ✅ Add order to history and clear cart
-      addOrderToHistory: () =>
-        set(
-          produce((state: StoreState) => {
-            if (state.CartList.length === 0) return;
+    addOrderToHistory: () =>
+  set(
+    produce((state: StoreState) => {
+      if (state.CartList.length === 0) return;
 
-            const order = {
-              id: `order_${Date.now()}`, // unique ID
-              items: [...state.CartList],
-              date: new Date().toISOString(),
-              total: state.CartPrice,
-              quantity: state.CartQuantity,
-            };
+      // Recompute totals right here:
+      let total = 0;
+      let quantity = 0;
+      state.CartList.forEach((item) => {
+        item.prices.forEach((p) => {
+          total += p.quantity * (p.price || 0);
+          quantity += p.quantity;
+        });
+      });
 
-            state.OrderHistoryList.push(order);
+      const order = {
+        id: `order_${Date.now()}`,
+        items: [...state.CartList],
+        date: new Date().toISOString(),
+        total,
+        quantity,
+      };
 
-            // Optionally clear the cart
-            state.CartList = [];
-            state.CartPrice = 0;
-            state.CartQuantity = 0;
-          }),
-        ),
+      state.OrderHistoryList.push(order);
+
+      state.CartList = [];
+      state.CartPrice = 0;
+      state.CartQuantity = 0;
+    })
+  ),
+
 
       // 🧮 Calculate total price and quantity
       getTotals: () =>

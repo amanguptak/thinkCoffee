@@ -44,17 +44,17 @@ const paymentOption = [
 const PaymentScreen = ({navigation}: Props) => {
   const cartPrice = useMyStore(state => state.CartPrice);
   const cartQuantity = useMyStore(state => state.CartQuantity);
-  const addOrderHistory = useMyStore(state => state.OrderHistoryList);
+const addOrderToHistory = useMyStore((s) => s.addOrderToHistory);
   const [paymentMode, setPaymentMode] = useState('Credit Card');
   const [showSuccess, setShowSuccess] = useState(false);
 
   const payNow = () => {
     setShowSuccess(true);
-    // addOrderHistory()
+    addOrderToHistory()
 
     setTimeout(() => {
       navigation.navigate('Tab', {screen: 'Orders'});
-    }, 2000);
+    }, 4000);
   };
 
   const goBack = () => {
@@ -114,6 +114,8 @@ const styles = StyleSheet.create({
   },
   lotteAnimation: {
     flex: 1,
+    
+
   },
 
   scrollContainer: {
@@ -137,3 +139,4 @@ const styles = StyleSheet.create({
     color: COLORS.primaryOrangeHex,
   },
 });
+
