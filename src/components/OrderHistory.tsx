@@ -4,6 +4,15 @@ import {Text, View, StyleSheet} from 'react-native';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/theme';
 import OrderCard from './OrderCard';
 import {ProductItem} from '../types/datatypes';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList, RootTabParamList } from '../types/navigation';
+
+type Props = CompositeScreenProps<
+  BottomTabScreenProps<RootTabParamList, 'Orders'>,
+  NativeStackScreenProps<RootStackParamList>
+>;
 
 interface orderHistoryI {
   date: string;
@@ -15,6 +24,7 @@ interface orderHistoryI {
 
 interface OrderHeaderProps {
   order: orderHistoryI;
+  navigation: Props['navigation'];
 }
 
 function formatOrderDate(dateString: string): string {
@@ -28,7 +38,7 @@ function formatOrderDate(dateString: string): string {
 }
 
 
-const OrderHistory = ({order}: OrderHeaderProps) => {
+const OrderHistory = ({order,navigation}: OrderHeaderProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.orderMain}>
@@ -43,7 +53,7 @@ const OrderHistory = ({order}: OrderHeaderProps) => {
         </View>
       </View>
       {order.items.map((p: ProductItem) => (
-        <OrderCard orderItem={p} key={p.id} total={order.total} />
+        <OrderCard orderItem={p} key={p.id} total={order.total} navigation={navigation}/>
       ))}
     </View>
   );

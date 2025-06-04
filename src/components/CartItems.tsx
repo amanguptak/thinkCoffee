@@ -1,5 +1,12 @@
 import * as React from 'react';
-import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import {CartItem} from '../store/store';
 import {
   BORDERRADIUS,
@@ -33,17 +40,22 @@ const CartItems = ({
           colors={[COLORS.primaryGreyHex, COLORS.primaryDarkGreyHex]}
           style={styles.multiSizeItem}>
           <View style={styles.itemRow}>
-
+            <Pressable
+              onPress={() => {
+                console.log(
+                  'goDetails called with:',
+                  cartItem.id,
+                  cartItem.type,
+                );
+                goDetails(cartItem.id, cartItem.type);
+              }}>
               <Image
                 source={cartItem.imagelink_square}
                 style={styles.itemImage}
               />
-            <TouchableOpacity
-              onPress={() => {
-                goDetails(cartItem.id, cartItem.type);
-              }}>
+            </Pressable>
 
-                <View style={styles.itemInfo}>
+            <View style={styles.itemInfo}>
               <View>
                 <Text style={styles.itemTitle}>{cartItem.name}</Text>
                 <Text style={styles.itemSubtitle}>
@@ -54,10 +66,6 @@ const CartItems = ({
                 <Text style={styles.roastText}>{cartItem.roasted}</Text>
               </View>
             </View>
-            
-            </TouchableOpacity>
-
-            
           </View>
 
           {cartItem.prices.map(p => (

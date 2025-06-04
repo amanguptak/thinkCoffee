@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Image } from 'react-native';
+import { Text, View, StyleSheet, Image, Pressable  } from 'react-native';
 import {  BORDERRADIUS,
   COLORS,
   FONTFAMILY,
@@ -8,13 +8,25 @@ import {  BORDERRADIUS,
 // import CoffeeData from '../data/CoffeeData';
 import LinearGradient from 'react-native-linear-gradient';
 import { ProductItem } from '../types/datatypes';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList, RootTabParamList } from '../types/navigation';
+type Props = CompositeScreenProps<
+  BottomTabScreenProps<RootTabParamList, 'Orders'>,
+  NativeStackScreenProps<RootStackParamList>
+>;
 
 interface OrderCardProps {
     orderItem:ProductItem,
     total:number
+      navigation: Props['navigation'];
 }
 
-const OrderCard = ({orderItem ,total}: OrderCardProps) => {
+const OrderCard = ({orderItem ,total,navigation}: OrderCardProps) => {
+    const productBack = ()=>{
+        navigation.navigate("Details" , {id:orderItem.id,type:orderItem.type})
+    }
   return (
     <View >
    <LinearGradient
@@ -24,7 +36,9 @@ const OrderCard = ({orderItem ,total}: OrderCardProps) => {
       style={styles.CardLinearGradient}>
       <View style={styles.CardInfoContainer}>
         <View style={styles.CardImageInfoContainer}>
+            <Pressable onPress={productBack}>
           <Image source={orderItem.imagelink_square} style={styles.Image} />
+          </Pressable>
           <View>
             <Text style={styles.CardTitle}>{orderItem.name}</Text>
             <Text style={styles.CardSubtitle}>{orderItem.special_ingredient}</Text>
