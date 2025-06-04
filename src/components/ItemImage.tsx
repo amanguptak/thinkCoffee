@@ -5,10 +5,17 @@ import {
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
+  Pressable,
 } from 'react-native';
 import CoffeeData from '../data/CoffeeData';
 import GradientBgIcon from './GradientBgIcon';
-import { BORDERRADIUS, COLORS, FONTFAMILY, FONTSIZE, SPACING } from '../theme/theme';
+import {
+  BORDERRADIUS,
+  COLORS,
+  FONTFAMILY,
+  FONTSIZE,
+  SPACING,
+} from '../theme/theme';
 import CustomIcon from './CustomIcon';
 
 interface ItemImageProps {
@@ -16,6 +23,7 @@ interface ItemImageProps {
   detailItem: (typeof CoffeeData)[number];
   backHandler?: () => void;
   toggleFav: (fav: boolean, id: string) => void;
+  navigation: any;
 }
 
 const ItemImage = ({
@@ -23,7 +31,11 @@ const ItemImage = ({
   enableBack,
   backHandler,
   toggleFav,
+  navigation,
 }: ItemImageProps) => {
+  const productBack = () => {
+    navigation.navigate('Details', {id: detailItem.id, type: detailItem.type});
+  };
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -55,7 +67,8 @@ const ItemImage = ({
           </View>
         ) : (
           <View style={styles.headerWithoutBack}>
-            <TouchableOpacity onPress={() => {
+            <TouchableOpacity
+              onPress={() => {
                 toggleFav(detailItem.favourite, detailItem.id);
               }}>
               <GradientBgIcon
@@ -72,14 +85,15 @@ const ItemImage = ({
         )}
 
         <View style={styles.imgFooter}>
-
-
           <View style={styles.footerRow1}>
-         <View>
-               <Text style={styles.ItemTitleText}>{detailItem.name}</Text>
-            <Text  style={styles.ItemSubtitleText}>{detailItem.special_ingredient}</Text>
-         </View>
-
+            <Pressable onPress={productBack}>
+              <View>
+                <Text style={styles.ItemTitleText}>{detailItem.name}</Text>
+                <Text style={styles.ItemSubtitleText}>
+                  {detailItem.special_ingredient}
+                </Text>
+              </View>
+            </Pressable>
             <View style={styles.rightSide}>
               <View style={styles.properFirst}>
                 <CustomIcon
@@ -118,16 +132,19 @@ const ItemImage = ({
           </View>
 
           <View>
-
-       <View style={styles.footerRow2}>
+            <View style={styles.footerRow2}>
               <View style={styles.RatingContainer}>
                 <CustomIcon
                   name={'star'}
                   color={COLORS.primaryOrangeHex}
                   size={FONTSIZE.size_20}
                 />
-                <Text style={styles.RatingText}>{detailItem.average_rating}</Text>
-                <Text style={styles.RatingCountText}>({detailItem.ratings_count})</Text>
+                <Text style={styles.RatingText}>
+                  {detailItem.average_rating}
+                </Text>
+                <Text style={styles.RatingCountText}>
+                  ({detailItem.ratings_count})
+                </Text>
               </View>
               <View style={styles.RoastedContainer}>
                 <Text style={styles.RoastedText}>{detailItem.roasted}</Text>
@@ -144,16 +161,14 @@ export default ItemImage;
 
 const styles = StyleSheet.create({
   container: {
-      overflow: 'hidden', // ✅ required to clip children
-  borderTopLeftRadius: 30,
-  borderTopRightRadius: 30,
+    overflow: 'hidden', // ✅ required to clip children
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
   itemImage: {
     width: '100%',
     aspectRatio: 20 / 25,
     justifyContent: 'space-between',
-
-   
   },
   headerWithBack: {
     padding: SPACING.space_30,
@@ -161,7 +176,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop:15,
+    marginTop: 15,
   },
   headerWithoutBack: {
     padding: SPACING.space_30,
@@ -171,16 +186,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   imgFooter: {
-
     paddingVertical: SPACING.space_24,
     paddingHorizontal: SPACING.space_24,
     backgroundColor: COLORS.primaryBlackRGBA,
     borderTopLeftRadius: BORDERRADIUS.radius_20 * 2,
     borderTopRightRadius: BORDERRADIUS.radius_20 * 2,
-    gap:10,
-     
+    gap: 10,
   },
-   ItemTitleText: {
+  ItemTitleText: {
     fontFamily: FONTFAMILY.poppins_semibold,
     fontSize: FONTSIZE.size_24,
     color: COLORS.primaryWhiteHex,
@@ -191,18 +204,17 @@ const styles = StyleSheet.create({
     color: COLORS.primaryWhiteHex,
   },
   footerRow1: {
-  flexDirection: 'row',
+    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   rightSide: {
-
-    display:'flex',
-    flexDirection:'row',
-    gap:12,
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 12,
   },
   properFirst: {
-      height: 55,
+    height: 55,
     width: 55,
     borderRadius: BORDERRADIUS.radius_15,
     justifyContent: 'center',
@@ -210,7 +222,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primaryDarkGreyHex,
   },
   propertyTextFirst: {
-     fontFamily: FONTFAMILY.poppins_medium,
+    fontFamily: FONTFAMILY.poppins_medium,
     fontSize: FONTSIZE.size_10,
     color: COLORS.primaryWhiteHex,
   },
@@ -220,13 +232,12 @@ const styles = StyleSheet.create({
     color: COLORS.primaryWhiteHex,
     marginTop: SPACING.space_2 + SPACING.space_4,
   },
-  footerRow2:{
- flexDirection: 'row',
+  footerRow2: {
+    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-
   },
-    RatingContainer: {
+  RatingContainer: {
     flexDirection: 'row',
     gap: SPACING.space_10,
     alignItems: 'center',

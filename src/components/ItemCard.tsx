@@ -16,7 +16,7 @@ import {
   SPACING,
 } from '../theme/theme';
 import CustomIcon from './CustomIcon';
-import BGIcon from './BGIcon';
+// import BGIcon from './BGIcon';
 
 interface ItemCardProps {
   item: ProductItem;
@@ -49,12 +49,7 @@ const ItemCard = ({item}: ItemCardProps) => {
         </Text>
 
         <TouchableOpacity onPress={() => {}}>
-          <BGIcon
-            name={'add'}
-            color={COLORS.primaryWhiteHex}
-            BGColor={COLORS.primaryOrangeHex}
-            size={FONTSIZE.size_10}
-          />
+            {/* <Text>view</Text> */}
         </TouchableOpacity>
       </View>
     </LinearGradient>

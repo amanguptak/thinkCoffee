@@ -47,35 +47,35 @@ interface Color {
   secondaryBlackRGBA: string;
 }
 
-// export const COLORS: Color = {
-//   primaryRedHex: '#D43C3C',             // Warmer, modern red
-//   primaryOrangeHex: '#FF8A5C',          // Soft, inviting coffee orange
-//   primaryBlackHex: '#1E1E1E',           // Modern black for backgrounds
-//   primaryDarkGreyHex: '#2C2C2E',        // Clean dark grey for cards
-//   secondaryDarkGreyHex: '#3A3A3C',      // Slightly lighter than primary dark
-//   primaryGreyHex: '#5C5C5C',            // Refined neutral for text
-//   secondaryGreyHex: '#737373',          // Secondary muted grey
-//   primaryLightGreyHex: '#B5B5B5',       // Lighter touch for placeholders
-//   secondaryLightGreyHex: '#D1D1D1',     // Near-white borders or icons
-//   primaryWhiteHex: '#FAFAFA',           // Off-white for better contrast
-//   primaryBlackRGBA: 'rgba(30,30,30,0.6)',  // Slightly softened black
-//   secondaryBlackRGBA: 'rgba(0,0,0,0.5)',   // For subtle shadows
-// };
-
 export const COLORS: Color = {
-  primaryRedHex: '#FF575C',              // Neon rose — for badges, like ❤️
-  primaryOrangeHex: '#FFB26B',           // Peach-glow — modern call-to-action
-  primaryBlackHex: '#0B0A0F',            // Deep obsidian black (main bg)
-  primaryDarkGreyHex: '#16151D',         // Card & surface base
-  secondaryDarkGreyHex: '#24222F',       // Secondary panel or nav background
-  primaryGreyHex: '#6D6A75',             // Muted lilac grey (text labels)
-  secondaryGreyHex: '#A6A2B2',           // Light metal grey (placeholders)
-  primaryLightGreyHex: '#D9D5E1',        // Cloud pearl (lines, borders)
-  secondaryLightGreyHex: '#F3F0F9',      // Lavender white (surface contrast)
-  primaryWhiteHex: '#FCFBFF',            // Moon milk white (high contrast text)
-  primaryBlackRGBA: 'rgba(11,10,15,0.7)', // For blur/glass panels
-  secondaryBlackRGBA: 'rgba(0,0,0,0.45)', // Modals & hover states
+  primaryRedHex: '#D43C3C',             // Warmer, modern red
+  primaryOrangeHex: '#FF8A5C',          // Soft, inviting coffee orange
+  primaryBlackHex: '#1E1E1E',           // Modern black for backgrounds
+  primaryDarkGreyHex: '#2C2C2E',        // Clean dark grey for cards
+  secondaryDarkGreyHex: '#3A3A3C',      // Slightly lighter than primary dark
+  primaryGreyHex: '#5C5C5C',            // Refined neutral for text
+  secondaryGreyHex: '#737373',          // Secondary muted grey
+  primaryLightGreyHex: '#B5B5B5',       // Lighter touch for placeholders
+  secondaryLightGreyHex: '#D1D1D1',     // Near-white borders or icons
+  primaryWhiteHex: '#FAFAFA',           // Off-white for better contrast
+  primaryBlackRGBA: 'rgba(30,30,30,0.6)',  // Slightly softened black
+  secondaryBlackRGBA: 'rgba(0,0,0,0.5)',   // For subtle shadows
 };
+
+// export const COLORS: Color = {
+//   primaryRedHex: '#FF575C',              // Neon rose — for badges, like ❤️
+//   primaryOrangeHex: '#FFB26B',           // Peach-glow — modern call-to-action
+//   primaryBlackHex: '#0B0A0F',            // Deep obsidian black (main bg)
+//   primaryDarkGreyHex: '#16151D',         // Card & surface base
+//   secondaryDarkGreyHex: '#24222F',       // Secondary panel or nav background
+//   primaryGreyHex: '#6D6A75',             // Muted lilac grey (text labels)
+//   secondaryGreyHex: '#A6A2B2',           // Light metal grey (placeholders)
+//   primaryLightGreyHex: '#D9D5E1',        // Cloud pearl (lines, borders)
+//   secondaryLightGreyHex: '#F3F0F9',      // Lavender white (surface contrast)
+//   primaryWhiteHex: '#FCFBFF',            // Moon milk white (high contrast text)
+//   primaryBlackRGBA: 'rgba(11,10,15,0.7)', // For blur/glass panels
+//   secondaryBlackRGBA: 'rgba(0,0,0,0.45)', // Modals & hover states
+// };
 
 
 interface FontFamily {

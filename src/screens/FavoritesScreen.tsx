@@ -8,9 +8,17 @@ import HeaderBar from '../components/HeaderBar';
 import ItemImage from '../components/ItemImage';
 import Description from '../components/Description';
 import LinearGradient from 'react-native-linear-gradient';
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { BottomTabScreenProps, useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { RootStackParamList, RootTabParamList } from '../types/navigation';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-const FavoritesScreen = () => {
+type Props = CompositeScreenProps<
+  BottomTabScreenProps<RootTabParamList, 'Favorite'>,
+  NativeStackScreenProps<RootStackParamList>
+>;
+
+const FavoritesScreen = ({navigation}:Props) => {
   const favList = useMyStore(state => state.FavoritesList);
   const addToFavorites = useMyStore(state => state.addToFavorites);
   const removeFromFavorites = useMyStore(state => state.removeFromFavorites);
@@ -42,6 +50,7 @@ const tabBarBottom = useBottomTabBarHeight()
                   enableBack={false}
                   detailItem={fav}
                   toggleFav={toggleFav}
+                  navigation={navigation}
                 />
                 <Description desc={fav.description} />
               </LinearGradient>
