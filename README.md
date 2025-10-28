@@ -23,7 +23,6 @@ https://github.com/user-attachments/assets/7b5b367e-5c9b-47b3-90af-0586eaeb9581
 - 🧾 Order History screen to view past purchases
 - 💳 Payment screen supporting credit card and wallet options
 - 📄 Details screen with full information about selected item
-- 🌗 Light & Dark theme toggle
 - 🎉 Lottie animations for success feedback and UI polish
 
 ---
@@ -31,6 +30,7 @@ https://github.com/user-attachments/assets/7b5b367e-5c9b-47b3-90af-0586eaeb9581
 ## 🔧 Tech Stack
 
 - **React Native CLI**
+- - **Typescript**
 - **React Navigation** (Stack Navigator, Tab Navigator)
 - **Zustand** for global state management
 - **Lottie for  React Native**
