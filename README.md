@@ -2,6 +2,9 @@
 
 **thinkCoffee** is a modern, minimal React Native app built using `react-native-cli`. It delivers a smooth, responsive experience for browsing, selecting, and ordering coffee and beans — complete with beautiful UI, subtle gradients, Lottie animations, and tab navigation.
 
+
+Demo Video : 
+
 ---
 
 ## ✨ Features
@@ -34,9 +37,13 @@
 
 > ✅ Make sure you’ve completed [React Native’s Environment Setup](https://reactnative.dev/docs/environment-setup) before continuing.
 
-### Step 1: Install Dependencies
+
+### Step 1: for android
 
 ```bash
 npm install
 # or
 yarn
+
+
+npx react-native run-android
