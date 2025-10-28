@@ -4,6 +4,9 @@
 
 
 Demo Video : 
+[🎥 Watch Demo Video](https://github.com/amanguptak/thinkCoffee/releases/download/demo-video/thinkdemo.mp4)
+
+
 
 ---
 
